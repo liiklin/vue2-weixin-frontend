@@ -1,0 +1,130 @@
+.modal-mask
+  position fixed
+  z-index 9998
+  top 0
+  left 0
+  width 100%
+  height 100%
+  background-color rgba(0, 0, 0, .5)
+  display table
+  transition opacity .5s ease
+
+.modal-wrapper
+  display table-cell
+  vertical-align middle
+
+.modal-container
+  margin 3%
+  border-radius 5px
+  height 75%
+  transition all .5s ease
+  z-index 0
+
+.modal-header
+  position relative
+  width 100%
+  background #72b7f0
+  color #fff
+  font-size 1em
+  background linear-gradient(#72b7f0 0%,#2257a2 100%)
+  > .modal-header-bottom
+    background url('../../assets/bl.svg')
+    height 10px !important
+    width 100%
+
+.header-bg-top
+  position fixed
+  height 80px
+  width 80px
+  border-radius 100px
+  text-align center
+  top 8%
+  border solid 5px transparent
+  z-index 1
+  img
+    width 100%
+    height 100%
+
+.modal-header-center
+  position relative
+  width 100% !important
+  padding-bottom 10%
+  font-size 12px
+  color #fff
+  &-score
+    position absolute
+    left 15%
+    text-align center
+    width auto
+    height auto
+    &-cricle
+      border solid 4px #00f6ff
+      border-radius 50%
+      height 60px
+      width 60px
+      color #ffffff
+      text-align center
+      &-top
+        font-size 1.5em
+      &-center
+        background #2b5991
+        height 1px
+        width 70%
+        margin-bottom 5px
+      &-bottom
+        font-size 0.625em
+  &-answer
+    position absolute
+    width auto
+    max-width 50%
+    text-align center
+    right 5%
+    &-bg
+      padding 1%
+      img
+        width 75%
+    &-info
+      position relative
+      color #fff
+      font-size 1em
+      text-align center
+      &-top
+        position absolute
+        top 30%
+        width 100%
+        height 100%
+        font-size 1.5em
+
+.header-bg-bottom
+  position fixed
+  background #72b7f0
+  height 80px
+  width 80px !important
+  border-radius 100px
+  text-align center
+  top 8%
+  border solid 6px #72b7f0
+  z-index -1
+
+.footer,
+.footer-top,
+.footer-center,
+.footer-bottom
+  width 100% !important
+
+.modal-body
+  width 90%
+  padding 10px 5%
+  overflow  auto
+
+.modal-footer
+  width 90%
+  padding 2px 5%
+
+.modal-enter
+  opacity 0
+.modal-leave-active
+  opacity 0
+.modal-enter .modal-container,
+.modal-leave-active .modal-container
+  transform scale(1.1)
