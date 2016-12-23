@@ -61,6 +61,12 @@ function fetchPaperList(store){
   })
 }
 
+function fetchUserinfo(store, wxId) {
+	return store.dispatch('FETCH_USER_INFO', {
+		wxId
+	})
+}
+
 // function fetchRankingList(store) {
 //   return store.dispatch('FETCH_PAPER_LIST_DATA', {
 //     paperList: [store.state.paperList]
@@ -108,8 +114,14 @@ export default {
         'getPaperList'
       ])
     },
+    mounted() {
+      // 获取用户信息
+      let wxId = this.$route.query.id
+      fetchUserinfo(this.$store, wxId)
+    },
     beforeMount (){
       document.title = "我的考试"
+
       fetchPaperList(this.$store).then(()=>{
         this.list = this.$store.getters.getPaperList
       })

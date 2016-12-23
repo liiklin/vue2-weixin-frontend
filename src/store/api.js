@@ -11,6 +11,7 @@ Vue.use(Vuex)
 function fetch(child) {
   return new Promise((resolve, reject) => {
     request.get(API_ROOT + child).then((response) => {
+      // console.log(JSON.stringify(response.text))
       if (typeof response.text == 'string') {
         resolve(JSON.parse(response.text))
       } else {
@@ -56,12 +57,12 @@ export function fetchPaperQuestions(wxId, paperId) {
 }
 
 export function fetchUserInfo(wxId) {
-  return fetch(`WxBus/getUserInfo?wxId=${wxID}`).then(response => {
-    return response.user
+  return fetch(`WxBus/getUserinfo?wxId=${wxId}`).then(response => {
+    return response.data.user
   })
 }
 
-export function postAnswer(wxId,paperId,data){
-  let listPaperQuestions = typeof data == 'string' ? data : JSON.stringify(data)
-  return post(`WxBus/getUserInfo?wxId=${wxID}&paperId=${paperId}&listPaperQuestions=${listPaperQuestions}`)
+export function handExam(wxId,paperId,data){
+  let listPaperQuestions = encodeURIComponent(typeof data == 'string' ? data : JSON.stringify(data))
+  return post(`WxBus/handExam?wxId=${wxID}&paperId=${paperId}&listPaperQuestions=${listPaperQuestions}`)
 }

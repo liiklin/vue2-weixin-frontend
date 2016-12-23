@@ -34,7 +34,7 @@
 	.answer
 		.answer_list(
 			v-for="(value, key) in currentQuestion.items"
-				v-bind:class="{'answer_list_active':key == selectAnswer}"
+			v-bind:class="{'answer_list_active':key == selectAnswer}"
 			@click="choseAnswer(key)"
 			)
 			i.iconfont.icon-weibiaoti2(
@@ -55,7 +55,13 @@
 					span(slot="buttonTitle") 查看排行榜
 	.chance
 		span {{ skipTimes | formtSkipTime}}
-	results(v-if="finishedExam" @close="finishedExam = false")
+	results(
+		v-if="finishedExam"
+		@close="finishedExam = false"
+		v-bind:total-score="totalScore"
+		v-bind:answer-sum="answerSum"
+		v-bind:user-info="userInfo"
+		)
 	modal(v-if="rateShowModal" color="#fdb32b")
 		div(slot="head-bg")
 			img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
@@ -86,10 +92,6 @@ function fetchPaperQuestions(store, wxId, paperId) {
 	})
 }
 
-function fetchAnsers(store) {
-
-}
-
 export default {
 	components: {
 		Results,
@@ -106,7 +108,12 @@ export default {
 			paperListQuestions: [],
 			paper:{},
 			questions: [],
-			answerList: [],
+			answerSum: {
+				total:0,
+				right:0,
+				error:0
+			},
+			userInfo:{},
 			skipTimes: 3,
 			min: 0,
 			sec: 0,
@@ -134,10 +141,16 @@ export default {
 				}
 				// 设置答案
 				this.paperListQuestions[this.currentQuestionId - 1].result = this.selectAnswer
+				// 保存答案
+				this.answerSum.total += 1
 				// 判断是否答对
 				if (this.selectAnswer == this.currentQuestion.answer) {
+					this.answerSum.right += 1
 					this.totalScore += parseInt(100 / this.questions.length)
+				}else{
+					this.answerSum.error += 1
 				}
+				// console.log(JSON.stringify(this.answerSum))
 				//
 				if (this.currentQuestionId != this.questions.length) {
 					this.currentQuestion = this.questions[this.currentQuestionId]
@@ -192,14 +205,15 @@ export default {
 				seft.timeOut = true
 			}
 		}, 1000)
+
+		this.userInfo = this.$store.userInfo
 	},
 	beforeMount() {
 		document.title = "开始答题"
 
-		let seft = this
-		let wxId = seft.$route.query.wxId,
+		let seft = this,
+			wxId = seft.$route.query.wxId,
 			paperId = seft.$route.query.paperId
-
 		// 获取试题
 		fetchPaperQuestions(seft.$store, wxId, paperId).then(() => {
 			seft.paper = seft.$store.getters.getQuestionsList
@@ -219,7 +233,7 @@ export default {
 						id:value.subjectId
 					}
 				})
-			// 设置首套题目
+			// // 设置首套题目
 			seft.currentQuestion = seft.questions[0]
 			seft.currentQuestionId = 1
 		})

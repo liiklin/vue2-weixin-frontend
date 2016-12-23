@@ -8,8 +8,7 @@ const store = new Vuex.Store({
   state: {
     userInfo: {},
     paperList: [],
-    questionsList: [],
-    chosePaperId: null
+    questionsList: []
   },
 
   actions: {
@@ -30,11 +29,11 @@ const store = new Vuex.Store({
       commit,
       dispatch,
       state
-    },{
+    }, {
       wxId,
       paperId
     }) => {
-      return api.fetchPaperQuestions(wxId,paperId)
+      return api.fetchPaperQuestions(wxId, paperId)
         .then(body => Promise.resolve(body))
         .then(questionsList => {
           commit('SET_QUESTIONS_LIST', {
@@ -42,8 +41,14 @@ const store = new Vuex.Store({
           })
         })
     },
-    FETCH_USER_INFO: (commit, dispatch, state) => {
-      return api.fetchUserInfo()
+    FETCH_USER_INFO: ({
+      commit,
+      dispatch,
+      state
+    }, {
+      wxId
+    }) => {
+      return api.fetchUserInfo(wxId)
         .then(body => Promise.resolve(body))
         .then(userInfo => {
           commit('SET_USER_INFO', {
@@ -64,15 +69,10 @@ const store = new Vuex.Store({
     }) => {
       state.questionsList = questionsList
     },
-    SET_CHOSE_PAPER: (state, {
-      chosePaperId
-    }) => {
-      state.chosePaperId = chosePaperId
-    },
     SET_USER_INFO: (state, {
-      uerInfo
+      userInfo
     }) => {
-      state.uerInfo = uerInfo
+      state.userInfo = userInfo
     }
   },
 
@@ -83,10 +83,7 @@ const store = new Vuex.Store({
     getQuestionsList(state) {
       return state.questionsList
     },
-    activeChosePaper(state) {
-      return state.chosePaperId
-    },
-    getUserInfo(state) {
+    getUserinfo(state) {
       return state.userInfo
     }
   }
