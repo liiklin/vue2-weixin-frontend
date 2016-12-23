@@ -10,7 +10,6 @@ Vue.use(Vuex)
 
 function fetch(child) {
   return new Promise((resolve, reject) => {
-    // console.log(child)
     Vue.http.get(API_ROOT + child).then((response) => {
       if (typeof response.body == 'string') {
         resolve(JSON.parse(response.body))
@@ -38,7 +37,6 @@ function post(child, data) {
 
 export function fetchPaperList() {
   return fetch('WxBus/getPaperList').then((response) => {
-    // console.log(response.data)
     let paperList = _.map(response.data, (value, key) => {
         return {
           index: key,
@@ -47,7 +45,6 @@ export function fetchPaperList() {
           timelimit: value.timelimit
         }
       })
-      // console.log(paperList)
     return paperList
   })
 }
@@ -70,14 +67,14 @@ export function handExam(wxId, paperId, data) {
       begTime: new Date().getTime(),
       app: "weixin",
       userId: wxId
-    }))
-  posdData = {
-    wxId,
-    paperId,
-    listPaperQuestions,
-    _log
-  }
-  return post(`WxBus/handExam`, posdData).then(response => {
+    })),
+    postData = {
+      wxId,
+      paperId,
+      listPaperQuestions,
+      _log
+    }
+  return post(`WxBus/handExam`, postData).then(response => {
     return response
   })
 }
