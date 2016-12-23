@@ -7,7 +7,7 @@ import Home from '../pages/index.vue'
 import Exam from '../pages/exam.vue'
 
 export default new Router({
-  mode: 'history',
+  // mode: 'history',
   scrollBehavior: () => ({
     y: 0
   }),
