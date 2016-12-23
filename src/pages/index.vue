@@ -115,7 +115,8 @@ export default {
     },
     beforeMount (){
       document.title = "我的考试"
-
+      console.log(this.$route)
+      console.log(this.$route.query.id)
       fetchPaperList(this.$store).then(()=>{
         this.list = this.$store.getters.getPaperList
       })
