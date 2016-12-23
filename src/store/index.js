@@ -8,7 +8,8 @@ const store = new Vuex.Store({
   state: {
     userInfo: {},
     paperList: [],
-    questionsList: []
+    questionsList: [],
+    rankingList: []
   },
 
   actions: {
@@ -41,6 +42,21 @@ const store = new Vuex.Store({
           })
         })
     },
+    FETCH_RANKING_LIST_DATA:({
+      commit,
+      dispatch,
+      state
+    }, {
+      wxId
+    })=>{
+      return api.fetchRankingList(wxId)
+        .then(body => Promise.resolve(body))
+        .then(rankingList => {
+          commit('SET_RANKING_LIST', {
+            rankingList
+          })
+        })
+    },
     FETCH_USER_INFO: ({
       commit,
       dispatch,
@@ -69,6 +85,11 @@ const store = new Vuex.Store({
     }) => {
       state.questionsList = questionsList
     },
+    SET_RANKING_LIST: (state, {
+      rankingList
+    }) => {
+      state.rankingList = rankingList
+    },
     SET_USER_INFO: (state, {
       userInfo
     }) => {
@@ -82,6 +103,9 @@ const store = new Vuex.Store({
     },
     getQuestionsList(state) {
       return state.questionsList
+    },
+    getRangkingList(state) {
+      return state.rankingList
     },
     getUserinfo(state) {
       return state.userInfo

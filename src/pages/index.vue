@@ -61,12 +61,6 @@ function fetchPaperList(store){
   })
 }
 
-// function fetchRankingList(store) {
-//   return store.dispatch('FETCH_PAPER_LIST_DATA', {
-//     paperList: [store.state.paperList]
-//   })
-// }
-
 export default {
     components: {
         Modal,
@@ -76,9 +70,10 @@ export default {
     },
     data() {
         return {
-          extShowModal: false,
-          rateShowModal: false,
-          infoShowModal: false,
+          extShowModal:false,
+          rateShowModal:false,
+          infoShowModal:false,
+          rankingList:[],
           list:[],
           paperId:'',
           timelimit:0

@@ -61,6 +61,12 @@ export function fetchUserInfo(wxId) {
   })
 }
 
+export function fetchRankingList(paperId) {
+  return fetch(`WxBus/getExamRankingList?paperId=${paperId}`).then(response => {
+    return response.data
+  })
+}
+
 export function handExam(wxId, paperId, data) {
   let listPaperQuestions = encodeURIComponent(typeof data == 'string' ? data : JSON.stringify(data)),
     _log = encodeURIComponent(JSON.stringify({

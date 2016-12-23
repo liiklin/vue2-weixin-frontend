@@ -100,12 +100,18 @@ import * as api from '../store/api'
 
 import _ from 'underscore'
 
-// function fetchPaperQuestions(store, wxId, paperId) {
-// 	return store.dispatch('FETCH_QUESTIONS_LIST_DATA', {
-// 		wxId,
-// 		paperId
-// 	})
-// }
+function fetchPaperQuestions(store, wxId, paperId) {
+	return store.dispatch('FETCH_QUESTIONS_LIST_DATA', {
+		wxId,
+		paperId
+	})
+}
+
+function fetchRankingList(store) {
+  return store.dispatch('FETCH_RANKING_LIST_DATA', {
+    rankingList: [store.state.rankingList]
+  })
+}
 
 function fetchUserinfo(store, wxId) {
 	return store.dispatch('FETCH_USER_INFO', {
@@ -189,7 +195,7 @@ export default {
 			if (this.skipTimes > 0) {
 				this.answerSum.total++
 				this.answerSum.error++
-				
+
 				this.paperListQuestions[this.currentQuestionId - 1].result = this.selectAnswer
 				if (this.currentQuestionId != this.questions.length) {
 					this.currentQuestion = this.questions[this.currentQuestionId]
@@ -302,12 +308,7 @@ export default {
 		fetchUserinfo(self.$store, wxId).then(() => {
 			self.userInfo = self.$store.getters.getUserinfo
 		})
-	},
-	// watch: {
-	// 	date (to, from) {
-	// 		this.loadQestions(to, from)
-	// 	}
-	// },
+	}
 }
 </script>
 
