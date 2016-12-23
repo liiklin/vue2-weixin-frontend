@@ -169,6 +169,7 @@ export default {
 					// 最后一道题
 					this.hasFinshed = true
 					this.canChose = false
+					window.clearInterval(this.intervalId)
 				}
 				// 设置答案
 				this.paperListQuestions[this.currentQuestionId - 1].result = this.selectAnswer
@@ -186,7 +187,6 @@ export default {
 					this.currentQuestion = this.questions[this.currentQuestionId]
 					this.currentQuestionId++
 					this.selectAnswer = ''
-					window.clearInterval(this.intervalId)
 				}
 			}
 		},
@@ -204,6 +204,7 @@ export default {
 					// 最后一道题
 					this.hasFinshed = true
 					this.canChose = false
+					window.clearInterval(this.intervalId)
 				}
 				this.skipTimes--
 				this.selectAnswer = ''
