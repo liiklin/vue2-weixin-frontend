@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import request from 'superagent'
+// import request from 'superagent'
 import _ from 'underscore'
 import {
   API_ROOT
@@ -10,42 +10,44 @@ Vue.use(Vuex)
 
 function fetch(child) {
   return new Promise((resolve, reject) => {
-    request.get(API_ROOT + child).then((response) => {
-      // console.log(JSON.stringify(response.text))
-      if (typeof response.text == 'string') {
-        resolve(JSON.parse(response.text))
+    // console.log(child)
+    Vue.http.get(API_ROOT + child).then((response) => {
+      if (typeof response.body == 'string') {
+        resolve(JSON.parse(response.body))
       } else {
-        resolve(response.text)
+        resolve(response.body)
       }
     }, reject)
   })
 }
 
-function post(child,data){
+function post(child, data) {
   return new Promise((resolve, reject) => {
-    request.post(API_ROOT + child)
-    .set('Content-Type', 'application/json')
-    .send(data)
-    .then((response) => {
-      if (typeof response.text == 'string') {
-        resolve(JSON.parse(response.text))
-      } else {
-        resolve(response.text)
-      }
-    }, reject)
+    Vue.http.post(API_ROOT + child, data, {
+        emulateJSON: true
+      })
+      .then((response) => {
+        if (typeof response.body == 'string') {
+          resolve(JSON.parse(response.body))
+        } else {
+          resolve(response.body)
+        }
+      }, reject)
   })
 }
 
 export function fetchPaperList() {
   return fetch('WxBus/getPaperList').then((response) => {
+    // console.log(response.data)
     let paperList = _.map(response.data, (value, key) => {
-      return {
-        index: key,
-        id: value.id,
-        title: value.name,
-        timelimit: value.timelimit
-      }
-    })
+        return {
+          index: key,
+          id: value.id,
+          title: value.name,
+          timelimit: value.timelimit
+        }
+      })
+      // console.log(paperList)
     return paperList
   })
 }
@@ -62,7 +64,20 @@ export function fetchUserInfo(wxId) {
   })
 }
 
-export function handExam(wxId,paperId,data){
-  let listPaperQuestions = encodeURIComponent(typeof data == 'string' ? data : JSON.stringify(data))
-  return post(`WxBus/handExam?wxId=${wxID}&paperId=${paperId}&listPaperQuestions=${listPaperQuestions}`)
+export function handExam(wxId, paperId, data) {
+  let listPaperQuestions = encodeURIComponent(typeof data == 'string' ? data : JSON.stringify(data)),
+    _log = encodeURIComponent(JSON.stringify({
+      begTime: new Date().getTime(),
+      app: "weixin",
+      userId: wxId
+    }))
+  posdData = {
+    wxId,
+    paperId,
+    listPaperQuestions,
+    _log
+  }
+  return post(`WxBus/handExam`, posdData).then(response => {
+    return response
+  })
 }

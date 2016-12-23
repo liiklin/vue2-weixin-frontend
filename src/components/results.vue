@@ -43,7 +43,7 @@ transition(name="modal")
 					.modal-body(flex-box="1" flex="main:center cross:center")
 						slot(name="body")
 							div(flex="dir:top main:center cross:center")
-								div(flex-box="1" style="font-size:1.2em;color:#233b92;padding: 5% 0px;")
+								div(flex-box="1" style="font-size:1.2em;color:#233b92;padding: 5% 0px;text-align: center")
 									span {{userInfo.name}} 荣获“学霸”牛逼称号
 								div(flex-box="1" style="font-size:0.75em;color:#a1a1a1")
 									span 获得抽奖机会还差 100积分
@@ -51,9 +51,9 @@ transition(name="modal")
 						slot(name="footer")
 							.footer(flex="dir:top main:center cross:center box:mean")
 								.footer-center(flex-box="1" flex="dir:left main:center cross:center")
-									Vbutton(v-bind:type = "`do`" @click="")
+									Vbutton(v-bind:type = "`do`" @click="doAgain")
 										span(slot="buttonTitle") 再来一次
-									Vbutton(v-bind:type = "`back`" @click="")
+									Vbutton(v-bind:type = "`back`" @click="showRank")
 										span(slot="buttonTitle") 查看排行榜
 								.footer-bottom(flex-box="1" style="width:90%;")
 									Vbutton(v-bind:type = "`finished`" @click="")
@@ -63,29 +63,47 @@ transition(name="modal")
 <script>
 import Vbutton from '../components/button.vue'
 
+import propsync from '../mixins/propsync' //引入mixin文件
+
 export default {
 	name: "results",
+	mixins: [propsync],//声明使用propsync的mixin
 	components: {
 		Vbutton
 	},
 	props: {
 		totalScore: {
 			type: Number,
+			propsync: false,
 			default: 0
 		},
 		answerSum: {
-			type: Object
+			type: Object,
+			propsync: false
 		},
 		userInfo: {
 			type: Object,
-			default:{
-				wxPhoto:'',
-
-			}
+			propsync: false
+		},
+		rateShowModal: {
+			type:Boolean
+		},
+		finishedExam: {
+			type:Boolean
 		}
 	},
 	data() {
 		return {}
+	},
+	methods:{
+		doAgain(){
+			this.$router.go(0)
+		},
+		showRank(){
+			this.p_rateShowModal = false
+			this.p_finishedExam = false
+			this.p_rateShowModal = true
+		}
 	}
 }
 </script>

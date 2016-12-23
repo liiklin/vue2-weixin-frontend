@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import VueResource from 'vue-resource'
 import App from './App.vue'
 import store from './store'
 import router from './router'
@@ -11,6 +12,8 @@ import 'flex.css' //flex布局
 import './iconfont/iconfont.css' //web字体图标
 
 sync(store, router)
+
+Vue.use(VueResource)
 
 Object.keys(filter).forEach(k => Vue.filter(k, filter[k])) //注册过滤器
 

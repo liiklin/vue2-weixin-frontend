@@ -20,34 +20,24 @@ transition(name="modal")
 
 <script>
 export default {
-    name: "modal",
-    props: {
-        color: {
-            type: String,
-            // default: "#fa4d8d"
-        }
-    },
-    data() {
-        return {
-            styleObject: {
-                "border-color": this.color
-            }
-        }
-    },
-		computed:{
-			colors (){
-				return {
-						styleObject: {
-								"border-color": this.color
-						}
-				}
-			}
-		},
-		methods:{
-			handleClick(evt){
-				this.$emit('click', evt)
+	name: "modal",
+	props: {
+		color: {
+			type: String,
+		}
+	},
+	data() {
+		return {
+			styleObject: {
+				"border-color": this.color
 			}
 		}
+	},
+	methods: {
+		handleClick(evt) {
+			this.$emit('click', evt)
+		}
+	}
 }
 </script>
 
