@@ -97,7 +97,7 @@ export default {
 	},
 	methods:{
 		doAgain(){
-			this.$router.go(0)
+			location.reload()
 		},
 		showRank(){
 			this.p_rateShowModal = false

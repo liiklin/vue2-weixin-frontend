@@ -1,5 +1,5 @@
 <template lang="pug">
-.btn(flex-box="1" flex="dir:top main:center cross=center" @click="handleClick")
+.btn(@click="handleClick")
   div(
     flex="main:center cross=center"
     v-bind:class="classObject"

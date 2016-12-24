@@ -1,6 +1,10 @@
 <template lang="pug">
 div
-	.list(v-for="data in listDatas" @click="chosePaper(data.id,data.timelimit)" v-bind:class="{'active-list':data.id == selectPaper}")
+	.list(
+		v-for="data in listDatas"
+		@click="chosePaper(data.id,data.timelimit)"
+		v-bind:class="{'active-list':data.id == selectPaper}"
+		)
 		span
 			| {{data.title}}
 		i(class="iconfont icon-xuanze")

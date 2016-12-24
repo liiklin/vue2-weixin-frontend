@@ -227,7 +227,7 @@ export default {
         })
 		},
 		doAgain(){
-			this.$router.go(0)
+			location.reload()
 		},
 		showRank(){
 			this.rateShowModal = true

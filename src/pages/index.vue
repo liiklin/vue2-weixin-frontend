@@ -12,7 +12,7 @@ div
       div(@click="infoShowModal = true")
         i(class="iconfont icon-xinxi")
         span 查看活动介绍
-  modal(v-if="extShowModal" color="#fa4d8d" @click="doExam(paperId,timelimit)")
+  modal(v-if="extShowModal" color="#fa4d8d")
     div(slot="head-bg")
       img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
     span(slot="header") 选择科目
