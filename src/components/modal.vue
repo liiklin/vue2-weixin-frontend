@@ -5,12 +5,13 @@ transition(name="modal")
 			.modal-container(:style="styleObject")
 				.modal-header
 					.modal-header-bg
-						slot(name="head-bg")
+						div
+							slot(name="head-bg")
 					.modal-header-title
 						span
 							slot(name="header")
-								| 选择科目
-				.modal-body
+								| &nbsp;
+				.modal-body(:style="styleObject1")
 					slot(name="body")
 						| &nbsp;
 				.modal-footer(flex="main:center cross:center")
@@ -24,12 +25,22 @@ export default {
 	props: {
 		color: {
 			type: String,
+		},
+		height:{
+			type: String,
+		},
+		bodyHeight:{
+			type: String,
 		}
 	},
 	data() {
 		return {
 			styleObject: {
-				"border-color": this.color
+				"border-color": this.color,
+				"height":this.height
+			},
+			styleObject1: {
+				"height":this.bodyHeight
 			}
 		}
 	},

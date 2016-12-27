@@ -55,8 +55,8 @@ transition(name="modal")
 										span(slot="buttonTitle") 再来一次
 									Vbutton(v-bind:type = "`back`" @click="showRank")
 										span(slot="buttonTitle") 查看排行榜
-								.footer-bottom(flex-box="1" style="width:90%;")
-									Vbutton(v-bind:type = "`finished`" @click="")
+								.footer-bottom(flex-box="1")
+									Vbutton(v-bind:type = "`finished`" @click="" width="width:100%;")
 										span(slot="buttonTitle") 分享赚积分
 </template>
 

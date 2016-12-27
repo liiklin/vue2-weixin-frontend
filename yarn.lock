@@ -3430,7 +3430,13 @@ stylus-loader@^2.4.0:
     loader-utils "^0.2.9"
     when "~3.6.x"
 
-stylus@0.54.5, stylus@^0.54.5:
+stylus-px2rem@^1.0.10:
+  version "1.0.10"
+  resolved "http://registry.npm.taobao.org/stylus-px2rem/download/stylus-px2rem-1.0.10.tgz#09ffd27a614849ac88b3ce346cd5d13293398d0c"
+  dependencies:
+    stylus "^0.54.2"
+
+stylus@0.54.5, stylus@^0.54.2, stylus@^0.54.5:
   version "0.54.5"
   resolved "http://registry.npm.taobao.org/stylus/download/stylus-0.54.5.tgz#42b9560931ca7090ce8515a798ba9e6aa3d6dc79"
   dependencies:

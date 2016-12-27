@@ -1,12 +1,14 @@
 <template lang="pug">
 	#app
-		transition
+		transition(
+			name="fadeLeft"
+			)
 			router-view
 </template>
 
 <script>
 export default {
-  computed: {}
+	computed: {}
 }
 </script>
 

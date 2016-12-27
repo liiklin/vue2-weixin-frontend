@@ -2,45 +2,42 @@
 div
   div(class="bg")
     img(src="../assets/bg2.jpg")
-  div(flex="dir:top" class="content")
+  .content(flex="dir:top main:center")
     div(flex="main:center cross:center")
       Vbutton(:type="`start`" @click="extShowModal = true")
         span(slot="buttonTitle") 开始考试
       Vbutton(:type="`rank`" @click="rateShowModal = true")
         span(slot="buttonTitle") 答题排行榜
-    div(flex="main:center cross:center" class="activity-info")
+    .activity-info
       div(@click="infoShowModal = true")
         i(class="iconfont icon-xinxi")
         span 查看活动介绍
-  modal(v-if="extShowModal" color="#fa4d8d")
-    div(slot="head-bg")
-      img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
+  modal(v-if="extShowModal" color="#fa4d8d" height="8.28125rem" body-height="4.6rem")
+    img(slot="head-bg" src="../assets/titlebg.png")
     span(slot="header") 选择科目
     div(slot="body")
       List(:list="list" \:paperId="paperId" @onPropsChange="change")
-    div(slot="footer" flex="dir:left" style="width:100%;")
+    div(slot="footer" flex="dir:left main:center cross:center" style="width:100%;")
       Vbutton(:type="`do`" @click="doExam(paperId,timelimit)")
         span(slot="buttonTitle") 开始考试
       Vbutton(:type="`back`" @click="extShowModal = false")
         span(slot="buttonTitle") 返回
-  modal(v-show="rateShowModal" color="#ffb400")
-    div(slot="head-bg")
-      img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
+  modal(v-show="rateShowModal" color="#ffb400" height="11.5625rem")
+    img(slot="head-bg" src="../assets/titlebg.png")
     span(slot="header") 排行榜
     div(slot="body")
       Vtable
-    div(slot="footer" flex="dir:left" style="width:100%;")
+    div(slot="footer" flex="dir:left main:center cross:center" style="width:100%;")
       Vbutton(:type="`do`" @click="start")
         span(slot="buttonTitle") 开始考试
       Vbutton(:type="`back`" @click="rateShowModal = false")
         span(slot="buttonTitle") 返回
-  modal(v-show="infoShowModal" color="#69a2fc")
-    div(slot="head-bg")
-      img(src="../assets/titlebg2.png" style="width:45%;max-height:50px;")
+  modal(v-show="infoShowModal" color="#69a2fc" height="8.28125rem" body-height="4.6rem")
+    img(slot="head-bg" src="../assets/titlebg2.png")
     span(slot="header") 活动介绍
     div(slot="body")
       span 活动介绍。
-    div(slot="footer" flex="dir:left" style="width:100%;")
+    div(slot="footer" flex="dir:left main:center cross:center" style="width:100%;")
       Vbutton(:type="`do`" @click="start")
         span(slot="buttonTitle") 开始考试
       Vbutton(:type="`back`" @click="infoShowModal = false")
@@ -109,7 +106,6 @@ export default {
       // fetchUserinfo(this.$store, wxId)
     },
     beforeMount (){
-      document.title = "我的考试"
       fetchPaperList(this.$store).then(()=>{
         this.list = this.$store.getters.getPaperList
       })

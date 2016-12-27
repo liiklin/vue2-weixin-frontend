@@ -15,6 +15,30 @@ sync(store, router)
 
 Vue.use(VueResource)
 
+/**
+ * 兼容微信设置页面的title
+ */
+let setDocumentTitle = function (title) {
+    document.title = title;
+    let ua = navigator.userAgent;
+    if (/\bMicroMessenger\/([\d\.]+)/.test(ua) && /ip(hone|od|ad)/i.test(ua)) {
+        var i = document.createElement('iframe');
+        i.src = '/favicon.ico';
+        i.style.display = 'none';
+        i.onload = function () {
+            setTimeout(function () {
+                i.remove();
+            }, 9);
+        };
+        document.body.appendChild(i);
+    }
+}
+
+router.beforeEach((to, from, next) => {
+  typeof to.meta.title !== undefined && setDocumentTitle(to.meta.title)
+  next()
+})
+
 Object.keys(filter).forEach(k => Vue.filter(k, filter[k])) //注册过滤器
 
 const app = new Vue({

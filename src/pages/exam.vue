@@ -64,17 +64,6 @@
 		v-bind:finished-exam="finishedExam"
 		@onPropsChange="change"
 		)
-	modal(v-show="extShowModal" color="#fa4d8d" @click="doExam(paperId,paperTimelimit)")
-		div(slot="head-bg")
-			img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
-		span(slot="header") 选择科目
-		div(slot="body")
-			List(:list="list" \:paperId="paperId" @onPropsChange="change")
-		div(slot="footer" flex="dir:left" style="width:100%;")
-			Vbutton(:type="`do`" @click="")
-				span(slot="buttonTitle") 开始考试
-			Vbutton(:type="`back`" @click="closeModal")
-				span(slot="buttonTitle") 返回
 	modal(v-show="rateShowModal" color="#fdb32b")
 		div(slot="head-bg")
 			img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
@@ -132,7 +121,6 @@ export default {
 			finishedExam: false,
 			hasFinshed: false,
 			canChose: true,
-			extShowModal: false,
 			rateShowModal:false,
 			list:[],
 			paperListQuestions: [],
@@ -233,7 +221,6 @@ export default {
 			this.rateShowModal = true
 		},
 		closeModal(){
-			this.extShowModal = false
 			this.rateShowModal =false
 		},
 		change(propName,newVal,oldVal){
@@ -300,8 +287,6 @@ export default {
 		this.loadQestions()
 	},
 	beforeMount() {
-		document.title = "开始答题"
-
 		let self = this,
 			wxId = self.$route.query.wxId,
 			paperId = self.$route.query.paperId

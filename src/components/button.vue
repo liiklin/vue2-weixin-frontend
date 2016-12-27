@@ -1,5 +1,5 @@
 <template lang="pug">
-.btn(@click="handleClick")
+.btn(@click="handleClick" v-bind:style="styleObject")
   div(
     flex="main:center cross=center"
     v-bind:class="classObject"
@@ -16,12 +16,18 @@
         type: String,
         default: 'default'
       },
+      width:{
+        type: String
+      }
     },
     data(){
       return {
         classObject:[
           this.type ? `btn-${this.type}` : '',
-        ]
+        ],
+        styleObject:{
+          'width':this.width
+        }
       }
     },
     methods:{

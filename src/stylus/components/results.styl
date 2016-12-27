@@ -1,3 +1,7 @@
+@import '../base.styl'
+
+// @import '~nib/lib/nib/index' // nib
+
 .modal-mask
   position fixed
   z-index 9998
@@ -25,8 +29,8 @@
   width 100%
   background #72b7f0
   color #fff
-  font-size 1em
-  background linear-gradient(#72b7f0 0%,#2257a2 100%)
+  font-size 14px
+  background linear-gradient(#72b7f0,#2257a2)
   > .modal-header-bottom
     background url('../../assets/bl.svg')
     height 10px !important
@@ -65,14 +69,14 @@
       color #ffffff
       text-align center
       &-top
-        font-size 1.5em
+        font-size 24px
       &-center
         background #2b5991
         height 1px
         width 70%
         margin-bottom 5px
       &-bottom
-        font-size 0.625em
+        font-size 10px
   &-answer
     position absolute
     width auto
@@ -86,14 +90,14 @@
     &-info
       position relative
       color #fff
-      font-size 1em
+      font-size 10px
       text-align center
       &-top
         position absolute
         top 30%
         width 100%
         height 100%
-        font-size 1.5em
+        font-size 20px
 
 .header-bg-bottom
   position fixed
