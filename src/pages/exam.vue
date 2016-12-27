@@ -118,7 +118,7 @@ export default {
 	},
 	data() {
 		return {
-			finishedExam: true,
+			finishedExam: false,
 			hasFinshed: false,
 			canChose: false,
 			rateShowModal:false,
