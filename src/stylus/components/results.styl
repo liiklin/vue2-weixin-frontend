@@ -30,24 +30,53 @@
   background #72b7f0
   color #fff
   font-size 14px
-  background linear-gradient(#72b7f0,#2257a2)
+  background linear-gradient(top,#72b7f0,#2257a2)
   > .modal-header-bottom
     background url('../../assets/bl.svg')
     height 10px !important
     width 100%
 
-.header-bg-top
+
+.header-bg-userIcon-top
   position fixed
-  height 80px
-  width 80px
-  border-radius 100px
+  top 40px
+  left 0
+  right 0
   text-align center
-  top 8%
-  border solid 5px transparent
-  z-index 1
-  img
-    width 100%
-    height 100%
+  margin 0 auto
+  .header-bg-top
+    border solid 5px rgba(0,0,0,0)
+    border-radius 50%
+    height 80px
+    width 80px
+    margin 0 auto
+    img
+      height 70px
+      width 70px
+      border-radius 50%
+      border solid 5px #fff
+
+.header-bg-userIcon-bottom
+  position fixed
+  top 40px
+  left 0
+  right 0
+  text-align center
+  margin 0 auto
+  z-index -1
+  .header-bg-bottom
+    background-color #71b6ef
+    border solid 6px #71b6ef
+    border-radius 50%
+    height 78px
+    width 78px
+    margin 0 auto
+    img
+      height 70px
+      width 70px
+      border-radius 50%
+      border solid 5px #fff
+
 
 .modal-header-center
   position relative
@@ -73,7 +102,7 @@
       &-center
         background #2b5991
         height 1px
-        width 70%
+        width 43px
         margin-bottom 5px
       &-bottom
         font-size 10px
@@ -99,17 +128,6 @@
         height 100%
         font-size 20px
 
-.header-bg-bottom
-  position fixed
-  background #72b7f0
-  height 80px
-  width 80px !important
-  border-radius 100px
-  text-align center
-  top 8%
-  border solid 6px #72b7f0
-  z-index -1
-
 .footer,
 .footer-top,
 .footer-center,
@@ -117,9 +135,22 @@
   width 100% !important
 
 .modal-body
-  width 90%
-  padding 10px 5%
+  // width 90%
+  // padding 10px 5%
   overflow  auto
+
+.honor
+  // font-size 16px
+  width 100%
+  // height 100%
+  &-top
+    font-size 16px !important
+    color #233b92
+    padding 5% 0px
+    text-align center
+  &-bottom
+    font-size 12px !important
+    color #a1a1a1 !important
 
 .modal-footer
   width 90%

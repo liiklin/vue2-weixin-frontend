@@ -1,8 +1,6 @@
 <template lang="pug">
 	#app
-		transition(
-			name="fadeLeft"
-			)
+		transition
 			router-view
 </template>
 

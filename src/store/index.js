@@ -47,9 +47,9 @@ const store = new Vuex.Store({
       dispatch,
       state
     }, {
-      wxId
+      paperId
     })=>{
-      return api.fetchRankingList(wxId)
+      return api.fetchRankingList(paperId)
         .then(body => Promise.resolve(body))
         .then(rankingList => {
           commit('SET_RANKING_LIST', {

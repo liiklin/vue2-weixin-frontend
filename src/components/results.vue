@@ -4,10 +4,12 @@ transition(name="modal")
 		.modal-wrapper
 			.modal-container(flex="dir:top main:center cross:center")
 				.modal-header(flex-box="1" flex="dir:top main:center cross:center box:last")
-					div(flex-box="6" flex="main:center cross:center box:last" style="height:100%;")
-						.header-bg-top
-							img(:src="userInfo.wxPhoto")
-						.header-bg-bottom
+					div(flex="dir:top main:center cross:center")
+						.header-bg-userIcon-top
+								.header-bg-top
+									img(:src="userInfo.wxPhoto")
+						.header-bg-userIcon-bottom
+								.header-bg-bottom
 					.modal-header-center(flex-box="5" flex="dir:left main:center cross:center")
 						.modal-header-center-score(flex-box="2" flex="dir:top main:center cross:center")
 							.modal-header-center-score-cricle(flex="dir:top main:center cross:center")
@@ -42,11 +44,11 @@ transition(name="modal")
 				div(flex-box="1" flex="dir:top main:center cross:center" style="background:#fff;width:100%;height:auto")
 					.modal-body(flex-box="1" flex="main:center cross:center")
 						slot(name="body")
-							div(flex="dir:top main:center cross:center")
-								div(flex-box="1" style="font-size:1.2em;color:#233b92;padding: 5% 0px;text-align: center")
+							.honor(flex="dir:top main:center cross:center")
+								.honor-top(flex-box="1")
 									span {{userInfo.name}} 荣获“学霸”牛逼称号
-								div(flex-box="1" style="font-size:0.75em;color:#a1a1a1")
-									span 获得抽奖机会还差 100积分
+								.honor-bottom(flex-box="1")
+									span 获得抽奖机会还差100积分
 					.modal-footer(flex-box="9" flex="main:center")
 						slot(name="footer")
 							.footer(flex="dir:top main:center cross:center box:mean")
@@ -56,7 +58,7 @@ transition(name="modal")
 									Vbutton(v-bind:type = "`back`" @click="showRank")
 										span(slot="buttonTitle") 查看排行榜
 								.footer-bottom(flex-box="1")
-									Vbutton(v-bind:type = "`finished`" @click="" width="width:100%;")
+									Vbutton(v-bind:type = "`finished`" @click="")
 										span(slot="buttonTitle") 分享赚积分
 </template>
 

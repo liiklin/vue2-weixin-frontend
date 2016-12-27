@@ -1,7 +1,7 @@
 <template lang="pug">
 div
   div(class="bg")
-    img(src="../assets/bg2.jpg")
+    img(src="../assets/bg2.png")
   .content(flex="dir:top main:center")
     div(flex="main:center cross:center")
       Vbutton(:type="`start`" @click="extShowModal = true")
@@ -26,7 +26,7 @@ div
     img(slot="head-bg" src="../assets/titlebg.png")
     span(slot="header") 排行榜
     div(slot="body")
-      Vtable
+      Vtable(\:list="rankingList" \:titles="titles")
     div(slot="footer" flex="dir:left main:center cross:center" style="width:100%;")
       Vbutton(:type="`do`" @click="start")
         span(slot="buttonTitle") 开始考试
@@ -58,6 +58,12 @@ function fetchPaperList(store){
   })
 }
 
+function fetchUserinfo(store, wxId) {
+	return store.dispatch('FETCH_USER_INFO', {
+		wxId
+	})
+}
+
 export default {
     components: {
         Modal,
@@ -70,6 +76,7 @@ export default {
           extShowModal:false,
           rateShowModal:false,
           infoShowModal:false,
+          titles: ['排行', '名称', '分数'],
           rankingList:[],
           list:[],
           paperId:'',
@@ -102,13 +109,21 @@ export default {
     },
     mounted() {
       // 获取用户信息
-      // let wxId = this.$route.query.id
-      // fetchUserinfo(this.$store, wxId)
+      let wxId = this.$route.query.id
+      fetchUserinfo(this.$store, wxId)
     },
     beforeMount (){
-      fetchPaperList(this.$store).then(()=>{
-        this.list = this.$store.getters.getPaperList
+      let self = this,
+        wxId = self.$route.query.id,
+        paperId = self.$route.query.paperId
+
+      fetchPaperList(self.$store).then(()=>{
+        self.list = self.$store.getters.getPaperList
       })
+
+      // fetchUserinfo(self.$store, wxId).then(() => {
+      //   self.userInfo = self.$store.getters.getUserinfo
+      // })
     }
 }
 </script>

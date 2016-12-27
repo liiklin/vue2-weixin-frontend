@@ -69,7 +69,7 @@
 			img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
 		span(slot="header") 排行榜
 		div(slot="body")
-			Vtable
+			Vtable(:list="rankingList" \:titles="titles")
 		div(slot="footer" flex="dir:left" style="width:100%;")
 			Vbutton(type = "do" @click="doAgain")
 				span(slot="buttonTitle") 再考一次
@@ -118,11 +118,13 @@ export default {
 	},
 	data() {
 		return {
-			finishedExam: false,
+			finishedExam: true,
 			hasFinshed: false,
-			canChose: true,
+			canChose: false,
 			rateShowModal:false,
-			list:[],
+			// list:[],
+			titles: ['排行', '名称', '分数'],
+			rankingList:[],
 			paperListQuestions: [],
 			paper:{},
 			questions: [],
@@ -207,6 +209,7 @@ export default {
 			api.handExam(wxId, paperId,self.paper)
         .then(body => Promise.resolve(body))
         .then(data => {
+					self.loadRankingList(paperId)
 					if (data.success) {
 						self.paper.listPaperQuestions = self.paperListQuestions
 						self.rateShowModal = false
@@ -252,6 +255,12 @@ export default {
 				self.currentQuestion = self.questions[0]
 				self.currentQuestionId = 1
 			})
+		},
+		loadRankingList(paperId){
+			let self = this
+			self.$store.dispatch('FETCH_RANKING_LIST_DATA', {paperId}).then(() => {
+				self.rankingList = self.$store.getters.getRangkingList
+			})
 		}
 	},
 	computed: {
@@ -282,18 +291,17 @@ export default {
 				self.timeOut = true
 			}
 		}, 1000)
-
 		// 获取试题
 		this.loadQestions()
 	},
 	beforeMount() {
-		let self = this,
-			wxId = self.$route.query.wxId,
-			paperId = self.$route.query.paperId
-
-		fetchUserinfo(self.$store, wxId).then(() => {
-			self.userInfo = self.$store.getters.getUserinfo
-		})
+		// let self = this,
+		// 	wxId = self.$route.query.wxId,
+		// 	paperId = self.$route.query.paperId
+		//
+		// fetchUserinfo(self.$store, wxId).then(() => {
+		// 	self.userInfo = self.$store.getters.getUserinfo
+		// })
 	}
 }
 </script>
