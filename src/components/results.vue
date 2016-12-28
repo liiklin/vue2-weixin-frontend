@@ -110,4 +110,4 @@ export default {
 }
 </script>
 
-<style media="screen" scoped lang="stylus" src="../stylus/components/results1.styl"></style>
+<style media="screen" scoped lang="stylus" src="../stylus/components/results.styl"></style>
