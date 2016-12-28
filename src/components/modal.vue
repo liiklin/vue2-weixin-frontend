@@ -9,14 +9,11 @@ transition(name="modal")
 							slot(name="head-bg")
 					.modal-header-title
 						span
-							slot(name="header")
-								| &nbsp;
+							slot(name="header") &nbsp;
 				.modal-body(:style="styleObject1")
-					slot(name="body")
-						| &nbsp;
+					slot(name="body") &nbsp;
 				.modal-footer(flex="main:center cross:center")
-					slot(name="footer")
-						| &nbsp;
+					slot(name="footer") &nbsp;
 </template>
 
 <script>

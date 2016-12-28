@@ -69,7 +69,7 @@
 			img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
 		span(slot="header") 排行榜
 		div(slot="body")
-			Vtable(:list="rankingList" \:titles="titles")
+			Vtable(v-bind:listDatas="rankingList" v-bind:titles="titles")
 		div(slot="footer" flex="dir:left" style="width:100%;")
 			Vbutton(type = "do" @click="doAgain")
 				span(slot="buttonTitle") 再考一次
@@ -120,9 +120,9 @@ export default {
 		return {
 			finishedExam: false,
 			hasFinshed: false,
-			canChose: false,
+			canHandExam: true,
+			canChose: true,
 			rateShowModal:false,
-			// list:[],
 			titles: ['排行', '名称', '分数'],
 			rankingList:[],
 			paperListQuestions: [],
@@ -205,23 +205,47 @@ export default {
 				wxId = self.$route.query.wxId,
 				paperId = self.$route.query.paperId
 
-			// 提交答案给服务器
-			api.handExam(wxId, paperId,self.paper)
-        .then(body => Promise.resolve(body))
-        .then(data => {
-					self.loadRankingList(paperId)
-					if (data.success) {
-						self.paper.listPaperQuestions = self.paperListQuestions
-						self.rateShowModal = false
-						self.finishedExam = true
-					}
-        })
+			if (!self.canHandExam) {
+				self.rateShowModal = false
+				self.finishedExam = true
+			}else {
+				// 提交答案给服务器
+				api.handExam(wxId, paperId,self.paper)
+					.then(body => Promise.resolve(body))
+					.then(data => {
+						self.canHandExam = false
+						self.loadRankingList(paperId)
+						if (data.success) {
+							self.paper.listPaperQuestions = self.paperListQuestions
+							self.rateShowModal = false
+							self.finishedExam = true
+						}
+				})
+			}
 		},
 		doAgain(){
 			location.reload()
 		},
 		showRank(){
-			this.rateShowModal = true
+			let self = this,
+				wxId = self.$route.query.wxId,
+				paperId = self.$route.query.paperId
+
+			if (!self.canHandExam) {
+				this.rateShowModal = true
+			}else {
+				// 提交答案给服务器
+				api.handExam(wxId, paperId,self.paper)
+					.then(body => Promise.resolve(body))
+					.then(data => {
+						self.loadRankingList(paperId)
+						if (data.success) {
+							self.paper.listPaperQuestions = self.paperListQuestions
+							self.rateShowModal = true
+							self.finishedExam = false
+						}
+				})
+			}
 		},
 		closeModal(){
 			this.rateShowModal =false

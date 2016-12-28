@@ -63,7 +63,16 @@ export function fetchUserInfo(wxId) {
 
 export function fetchRankingList(paperId) {
   return fetch(`WxBus/getExamRankingList?paperId=${paperId}`).then(response => {
-    return response.data
+    let items = _.map(response.data,(value,key)=>{
+      console.log(Number(value.scored))
+      return {
+        index:Number(key)+1,
+        scored:Number(value.scored),
+        name:value.userName
+      }
+    })
+    console.log(items)
+    return items
   })
 }
 

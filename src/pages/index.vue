@@ -6,7 +6,7 @@ div
     div(flex="main:center cross:center")
       Vbutton(:type="`start`" @click="extShowModal = true")
         span(slot="buttonTitle") 开始考试
-      Vbutton(:type="`rank`" @click="rateShowModal = true")
+      Vbutton(:type="`rank-index`" @click="rateShowModal = true")
         span(slot="buttonTitle") 答题排行榜
     .activity-info
       div(@click="infoShowModal = true")
