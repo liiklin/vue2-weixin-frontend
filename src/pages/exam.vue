@@ -121,7 +121,7 @@ export default {
 	},
 	data() {
 		return {
-			finishedExam: true,
+			finishedExam: false,
 			hasFinshed: false,
 			canHandExam: true,
 			canChose: true,
@@ -293,7 +293,6 @@ export default {
 	},
 	computed: {
 		canNext() {
-			console.log(!_.isEmpty(this.selectAnswer))
 			return !_.isEmpty(this.selectAnswer)
 		},
 		canSkip() {

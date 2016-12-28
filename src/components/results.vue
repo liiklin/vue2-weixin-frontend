@@ -40,7 +40,7 @@ transition(name="modal")
 									span(style="color:#ff4d4d" v-text="answerSum.error")
 								div
 									span 答错
-					.modal-header-bottom(flex-box="1")
+					.modal-header-bottom(flex-box="1" style="height:13px!important;width:100%!important;")
 				div(flex-box="4" flex="dir:top main:center cross:center" style="background:#fff;width:100%;height:auto")
 					.modal-body(flex-box="1" flex="main:center cross:center")
 						slot(name="body")
@@ -110,4 +110,4 @@ export default {
 }
 </script>
 
-<style media="screen" scoped lang="stylus" src="../stylus/components/results.styl"></style>
+<style media="screen" scoped lang="stylus" src="../stylus/components/results1.styl"></style>
