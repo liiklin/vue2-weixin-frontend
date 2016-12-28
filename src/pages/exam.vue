@@ -44,9 +44,13 @@
 	.bottom_group(flex="dir:top")
 		div(flex="dir:top main:center cross:center" style="width:100%")
 			div(flex-box="1" flex="dir:left" v-show="!hasFinshed" style="width:100%")
-				Vbutton(type = "next" @click="doNext")
+				Vbutton(type = "next" @click="doNext" v-show="canNext")
 					span(slot="buttonTitle") 下一题
-				Vbutton(type = "skip" @click="doSkip")
+				Vbutton(type = "disable" v-show="!canNext")
+					span(slot="buttonTitle") 下一题
+				Vbutton(type = "skip" @click="doSkip" v-show="canSkip")
+					span(slot="buttonTitle") 跳过
+				Vbutton(type = "disable" v-show="!canSkip")
 					span(slot="buttonTitle") 跳过
 			div(flex-box="1" flex="dir:left" v-show="hasFinshed" style="width:100%")
 				Vbutton(type = "finished" @click="finished")
@@ -64,9 +68,8 @@
 		v-bind:finished-exam="finishedExam"
 		@onPropsChange="change"
 		)
-	modal(v-show="rateShowModal" color="#fdb32b")
-		div(slot="head-bg")
-			img(src="../assets/titlebg.png" style="width:45%;max-height:50px;")
+	modal(v-show="rateShowModal" color="#ffb400" height="11.5625rem")
+		img(slot="head-bg" src="../assets/titlebg.png")
 		span(slot="header") 排行榜
 		div(slot="body")
 			Vtable(v-bind:listDatas="rankingList" v-bind:titles="titles")
@@ -118,7 +121,7 @@ export default {
 	},
 	data() {
 		return {
-			finishedExam: false,
+			finishedExam: true,
 			hasFinshed: false,
 			canHandExam: true,
 			canChose: true,
@@ -194,6 +197,7 @@ export default {
 					// 最后一道题
 					this.hasFinshed = true
 					this.canChose = false
+					// this.canSkip = false
 					window.clearInterval(this.intervalId)
 				}
 				this.skipTimes--
@@ -289,7 +293,8 @@ export default {
 	},
 	computed: {
 		canNext() {
-			return !this.hasFinshed
+			console.log(!_.isEmpty(this.selectAnswer))
+			return !_.isEmpty(this.selectAnswer)
 		},
 		canSkip() {
 			return this.skipTimes > 0

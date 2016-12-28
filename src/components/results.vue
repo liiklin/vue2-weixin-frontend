@@ -3,15 +3,15 @@ transition(name="modal")
 	.modal-mask
 		.modal-wrapper
 			.modal-container(flex="dir:top main:center cross:center")
-				.modal-header(flex-box="1" flex="dir:top main:center cross:center box:last")
+				.modal-header(flex-box="3" flex="dir:top main:center cross:center box:last")
 					div(flex="dir:top main:center cross:center")
 						.header-bg-userIcon-top
 								.header-bg-top
 									img(:src="userInfo.wxPhoto")
 						.header-bg-userIcon-bottom
 								.header-bg-bottom
-					.modal-header-center(flex-box="5" flex="dir:left main:center cross:center")
-						.modal-header-center-score(flex-box="2" flex="dir:top main:center cross:center")
+					.modal-header-center(flex-box="5" flex="dir:left main:center")
+						.modal-header-center-score(flex="dir:top main:center cross:center")
 							.modal-header-center-score-cricle(flex="dir:top main:center cross:center")
 								.modal-header-center-score-cricle-top(flex-box="1" flex="main:center cross:center")
 									span(v-text="totalScore")
@@ -41,7 +41,7 @@ transition(name="modal")
 								div
 									span 答错
 					.modal-header-bottom(flex-box="1")
-				div(flex-box="1" flex="dir:top main:center cross:center" style="background:#fff;width:100%;height:auto")
+				div(flex-box="4" flex="dir:top main:center cross:center" style="background:#fff;width:100%;height:auto")
 					.modal-body(flex-box="1" flex="main:center cross:center")
 						slot(name="body")
 							.honor(flex="dir:top main:center cross:center")

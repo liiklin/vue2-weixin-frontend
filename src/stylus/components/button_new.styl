@@ -4,9 +4,8 @@ baseFontColor = #ffffff
 
 .btn
   position relative
-  // width 140px
+  -webkit-tap-highlight-color rgba(0,0,0,0)
   width 100%
-  // margin 10px
   font-size 16px
   // 首页开始考试
   .btn-start
@@ -167,3 +166,15 @@ baseFontColor = #ffffff
       text-align center
       &:active
         color #924c00 * 1.2
+  .btn-disable
+    margin 10px
+    background-color #eee
+    border-radius 8px
+    height 40px
+    border-bottom 3px solid #eee * 0.9
+    font-size 12px
+    span
+      line-height 40px
+      color #fff
+      width 100%
+      text-align center
