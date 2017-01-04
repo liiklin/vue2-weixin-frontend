@@ -81,7 +81,12 @@
 </template>
 
 <script>
-import {mapGetters, mapActions} from 'vuex'
+import {
+	mapGetters,
+	mapActions
+} from 'vuex'
+
+const queryString = require('query-string')
 
 import Modal from '../components/modal.vue'
 import Results from '../components/results.vue'
@@ -91,19 +96,6 @@ import List from '../components/list.vue'
 import * as api from '../store/api'
 
 import _ from 'underscore'
-
-function fetchPaperQuestions(store, wxId, paperId) {
-	return store.dispatch('FETCH_QUESTIONS_LIST_DATA', {
-		wxId,
-		paperId
-	})
-}
-
-function fetchRankingList(store) {
-  return store.dispatch('FETCH_RANKING_LIST_DATA', {
-    rankingList: [store.state.rankingList]
-  })
-}
 
 function fetchUserinfo(store, wxId) {
 	return store.dispatch('FETCH_USER_INFO', {
@@ -125,23 +117,23 @@ export default {
 			hasFinshed: false,
 			canHandExam: true,
 			canChose: true,
-			rateShowModal:false,
+			rateShowModal: false,
 			titles: ['排行', '名称', '分数'],
-			rankingList:[],
+			rankingList: [],
 			paperListQuestions: [],
-			paper:{},
+			paper: {},
 			questions: [],
 			answerSum: {
-				total:0,
-				right:0,
-				error:0
+				total: 0,
+				right: 0,
+				error: 0
 			},
-			userInfo:{},
+			userInfo: {},
 			skipTimes: 3,
 			min: 0,
 			sec: 0,
 			timelimit: 0,
-			paperTimelimit:0,
+			paperTimelimit: 0,
 			timeOut: false,
 			totalScore: 0,
 			currentQuestionId: 0,
@@ -166,20 +158,20 @@ export default {
 				}
 				// 设置答案
 				this.paperListQuestions[this.currentQuestionId - 1].result = this.selectAnswer
-				// 保存答案
+					// 保存答案
 				this.answerSum.total++
-				// 判断是否答对
-				if (this.selectAnswer == this.currentQuestion.answer) {
-					this.answerSum.right++
-					this.totalScore += parseInt(100 / this.questions.length)
-				}else{
-					this.answerSum.error++
-				}
-				//
+					// 判断是否答对
+					if (this.selectAnswer == this.currentQuestion.answer) {
+						this.answerSum.right++
+							this.totalScore += parseInt(100 / this.questions.length)
+					} else {
+						this.answerSum.error++
+					}
+					//
 				if (this.currentQuestionId != this.questions.length) {
 					this.currentQuestion = this.questions[this.currentQuestionId]
 					this.currentQuestionId++
-					this.selectAnswer = ''
+						this.selectAnswer = ''
 				}
 			}
 		},
@@ -187,108 +179,86 @@ export default {
 			// 设置答案
 			if (this.skipTimes > 0) {
 				this.answerSum.total++
-				this.answerSum.error++
+					this.answerSum.error++
 
-				this.paperListQuestions[this.currentQuestionId - 1].result = this.selectAnswer
+					this.paperListQuestions[this.currentQuestionId - 1].result = this.selectAnswer
 				if (this.currentQuestionId != this.questions.length) {
 					this.currentQuestion = this.questions[this.currentQuestionId]
 					this.currentQuestionId++
-				}else{
+				} else {
 					// 最后一道题
 					this.hasFinshed = true
 					this.canChose = false
-					// this.canSkip = false
+						// this.canSkip = false
 					window.clearInterval(this.intervalId)
 				}
 				this.skipTimes--
-				this.selectAnswer = ''
+					this.selectAnswer = ''
 			}
 		},
-		finished() {
+		async finished() {
 			let self = this,
-				wxId = self.$route.query.wxId,
+				search = queryString.parse(location.search),
+				wxId = self.$route.query.wxId || search.id.replace(/\//g,""),
 				paperId = self.$route.query.paperId
 
 			if (!self.canHandExam) {
 				self.rateShowModal = false
 				self.finishedExam = true
-			}else {
+			} else {
 				// 提交答案给服务器
-				api.handExam(wxId, paperId,self.paper)
+				api.handExam(wxId, paperId, self.paper)
 					.then(body => Promise.resolve(body))
 					.then(data => {
 						self.canHandExam = false
-						self.loadRankingList(paperId)
+						self.loadRankingList(paperId,wxId)
 						if (data.success) {
 							self.paper.listPaperQuestions = self.paperListQuestions
 							self.rateShowModal = false
 							self.finishedExam = true
 						}
-				})
+					})
 			}
 		},
-		doAgain(){
+		doAgain() {
 			location.reload()
 		},
-		showRank(){
+		async showRank() {
 			let self = this,
-				wxId = self.$route.query.wxId,
+				search = queryString.parse(location.search),
+				wxId = self.$route.query.wxId || search.id.replace(/\//g,""),
 				paperId = self.$route.query.paperId
 
 			if (!self.canHandExam) {
 				this.rateShowModal = true
-			}else {
+			} else {
 				// 提交答案给服务器
-				api.handExam(wxId, paperId,self.paper)
+				api.handExam(wxId, paperId, self.paper)
 					.then(body => Promise.resolve(body))
 					.then(data => {
-						self.loadRankingList(paperId)
+						self.canHandExam = false
+						self.loadRankingList(paperId,wxId)
 						if (data.success) {
 							self.paper.listPaperQuestions = self.paperListQuestions
 							self.rateShowModal = true
 							self.finishedExam = false
 						}
-				})
+					})
 			}
 		},
-		closeModal(){
-			this.rateShowModal =false
+		closeModal() {
+			this.rateShowModal = false
 		},
-		change(propName,newVal,oldVal){
-			this[propName]=newVal
+		change(propName, newVal, oldVal) {
+			this[propName] = newVal
 		},
-		loadQestions(){
-			let self = this,
-				wxId = self.$route.query.wxId,
-				paperId = self.$route.query.paperId
-			self.$store.dispatch('FETCH_QUESTIONS_LIST_DATA', {wxId, paperId}).then(() => {
-				self.paper = self.$store.getters.getQuestionsList
-				self.paperListQuestions = self.paper.listPaperQuestions
-				self.questions = _.map(self.paperListQuestions, (value, key) => {
-						let items = {}
-						_.each(value, (v, k) => {
-							if (k.indexOf('item') > -1 && !_.isEmpty(v)) {
-								items[k.replace('item', '')] = v
-							}
-						})
-						return {
-							index: Number(key) + 1,
-							title: value.name,
-							items,
-							answer: value.answer,
-							id:value.subjectId
-						}
-					})
-				// 设置首套题目
-				self.currentQuestion = self.questions[0]
-				self.currentQuestionId = 1
-			})
-		},
-		loadRankingList(paperId){
+		async loadRankingList(paperId,wxId) {
 			let self = this
-			self.$store.dispatch('FETCH_RANKING_LIST_DATA', {paperId}).then(() => {
-				self.rankingList = self.$store.getters.getRangkingList
+			await self.$store.dispatch('FETCH_RANKING_LIST_DATA', {
+				paperId,
+				wxId
 			})
+			self.rankingList = self.$store.getters.getRangkingList
 		}
 	},
 	computed: {
@@ -308,7 +278,7 @@ export default {
 		self.timelimit = Number(self.$route.query.timelimit || self.timelimit) * 60 //秒
 		self.min = parseInt(Number(self.timelimit) / 60)
 		self.sec = self.timelimit % 60
-		// 考试定时器
+			// 考试定时器
 		self.intervalId = setInterval(function() {
 			if (self.timelimit > 0) {
 				self.timelimit--
@@ -319,17 +289,43 @@ export default {
 				self.timeOut = true
 			}
 		}, 1000)
-		// 获取试题
-		this.loadQestions()
 	},
-	beforeMount() {
-		// let self = this,
-		// 	wxId = self.$route.query.wxId,
-		// 	paperId = self.$route.query.paperId
-		//
-		// fetchUserinfo(self.$store, wxId).then(() => {
-		// 	self.userInfo = self.$store.getters.getUserinfo
-		// })
+	async beforeMount() {
+		let self = this,
+			search = queryString.parse(location.search),
+			wxId = self.$route.query.wxId || search.id.replace(/\//g,""),
+			paperId = self.$route.query.paperId
+
+		if (_.isEmpty(self.$store.getters.getUserinfo)) {
+			await fetchUserinfo(self.$store, wxId)
+		}
+		await self.$store.dispatch('FETCH_QUESTIONS_LIST_DATA', {
+			wxId,
+			paperId
+		})
+
+		self.userInfo = self.$store.getters.getUserinfo
+
+		self.paper = self.$store.getters.getQuestionsList
+		self.paperListQuestions = self.paper.listPaperQuestions
+		self.questions = _.map(self.paperListQuestions, (value, key) => {
+				let items = {}
+				_.each(value, (v, k) => {
+					if (k.indexOf('item') > -1 && !_.isEmpty(v)) {
+						items[k.replace('item', '')] = v
+					}
+				})
+				return {
+					index: Number(key) + 1,
+					title: value.name,
+					items,
+					answer: value.answer,
+					id: value.subjectId
+				}
+			})
+			// 设置首套题目
+		self.currentQuestion = self.questions[0]
+		self.currentQuestionId = 1
 	}
 }
 </script>

@@ -58,7 +58,7 @@ transition(name="modal")
 									Vbutton(v-bind:type = "`back`" @click="showRank")
 										span(slot="buttonTitle") 查看排行榜
 								.footer-bottom(flex-box="1")
-									Vbutton(v-bind:type = "`finished`" @click="")
+									Vbutton(v-bind:type = "`finished`" @click="goInvite(userInfo.id)")
 										span(slot="buttonTitle") 分享赚积分
 </template>
 
@@ -105,6 +105,9 @@ export default {
 			this.p_rateShowModal = false
 			this.p_finishedExam = false
 			this.p_rateShowModal = true
+		},
+		goInvite(wxId){
+			self.location = `http://weixin.7ipr.com/app/weixin/qrcode/index.html#/?id=${wxId}`
 		}
 	}
 }
