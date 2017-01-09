@@ -149,6 +149,7 @@ export default {
 			}
 		},
 		doNext() {
+			// this.finishedExam = true
 			if (!_.isEmpty(this.selectAnswer)) {
 				if (this.currentQuestionId == this.questions.length) {
 					// 最后一道题

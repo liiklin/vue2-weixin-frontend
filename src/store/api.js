@@ -9,14 +9,14 @@ import {
 Vue.use(Vuex)
 
 function creatLog(userId) {
-  return JSON.stringify({
+  return encodeURIComponent(JSON.stringify({
     begTime: new Date().getTime(),
     app: "weixin",
     userId
-  })
+  }))
 }
 
-function fetch(child, userId) {
+function fetch(child) {
   return new Promise((resolve, reject) => {
     Vue.http.get(API_ROOT + child).then((response) => {
       if (typeof response.body == 'string') {
@@ -44,7 +44,8 @@ function post(child, data) {
 }
 
 export function fetchPaperList(wxId) {
-  return fetch(`WxBus/getPaperList?_log=${creatLog(wxId)}`).then((response) => {
+  let _log = creatLog(wxId)
+  return fetch(`WxBus/getPaperList?_log=${_log}`).then((response) => {
     let paperList = _.map(response.data, (value, key) => {
       return {
         index: key,
@@ -58,19 +59,22 @@ export function fetchPaperList(wxId) {
 }
 
 export function fetchPaperQuestions(wxId, paperId) {
-  return fetch(`WxBus/getPaperQuestions?wxId=${wxId}&paperId=${paperId}&_log=${creatLog(wxId)}`, wxId).then((response) => {
+  let _log = creatLog(wxId)
+  return fetch(`WxBus/getPaperQuestions?wxId=${wxId}&paperId=${paperId}&_log=${_log}`, wxId).then((response) => {
     return response.data
   })
 }
 
 export function fetchUserInfo(wxId) {
-  return fetch(`WxBus/getUserinfo?wxId=${wxId}&_log=${creatLog(wxId)}`, wxId).then(response => {
+  let _log = creatLog(wxId)
+  return fetch(`WxBus/getUserinfo?wxId=${wxId}&_log=${_log}`, wxId).then(response => {
     return response.data
   })
 }
 
 export function fetchRankingList(paperId, wxId) {
-  return fetch(`WxBus/getExamRankingList?paperId=${paperId}&_log=${creatLog(wxId)}`, wxId).then(response => {
+  let _log = creatLog(wxId)
+  return fetch(`WxBus/getExamRankingList?paperId=${paperId}&_log=${_log}`, wxId).then(response => {
     let items = _.map(response.data, (value, key) => {
       return {
         index: Number(key) + 1,

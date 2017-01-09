@@ -20,8 +20,10 @@ const store = new Vuex.Store({
       commit,
       dispatch,
       state
-    },{}) => {
-      return api.fetchPaperList()
+    }, {
+      wxId
+    }) => {
+      return api.fetchPaperList(wxId)
         .then(body => Promise.resolve(body))
         .then(paperlist => {
           // console.log(paperlist)
@@ -55,7 +57,7 @@ const store = new Vuex.Store({
       paperId,
       wxId
     }) => {
-      return api.fetchRankingList(paperId,wxId)
+      return api.fetchRankingList(paperId, wxId)
         .then(body => Promise.resolve(body))
         .then(rankingList => {
           // console.log(rankingList)
@@ -83,7 +85,9 @@ const store = new Vuex.Store({
           // commit('SET_HOME_RANKING_LIST', {
           //   homeRankingList
           // })
-          dispatch('FETCH_HOME_RANKING_LIST',{list:homeRankingList})
+          dispatch('FETCH_HOME_RANKING_LIST', {
+            list: homeRankingList
+          })
         })
     },
     FETCH_HOME_RANKING_LIST: ({
