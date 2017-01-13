@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-// import request from 'superagent'
 import _ from 'underscore'
 import {
   API_ROOT
